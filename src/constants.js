@@ -3,3 +3,7 @@ export const CIRCLE_RADIUS = 50;
 export const PRIMARY_COLOR = '#0984e3';
 export const DANGER_COLOR = '#d63031';
 export const BORDER_COLOR = '#dfe6e9';
+export const INFO_OFFSET_X = 15;
+export const INFO_OFFSET_Y = 15;
+export const GUEST_EMAIL = 'apu@eltech.com';
+export const GUEST_PASS = 'root';
