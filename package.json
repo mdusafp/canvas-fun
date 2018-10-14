@@ -4,10 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node server.js",
+    "postinstall": "yarn build",
     "start:dev": "webpack-dev-server",
     "build": "webpack"
   },
   "dependencies": {
+    "express": "^4.16.4",
     "konva": "^2.4.1"
   },
   "devDependencies": {
