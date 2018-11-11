@@ -2,10 +2,10 @@ import { Circle } from 'konva';
 import { PRIMARY_COLOR, BORDER_COLOR } from '../constants';
 
 // TODO: provide generator which will disable generation of coordinates on the border
-function generateCoordinates(width, height) {
+function generateCoordinates(width, height, radius) {
   return {
-    x: Math.ceil(Math.random() * width),
-    y: Math.ceil(Math.random() * height),
+    x: Math.ceil(Math.random() * width - radius),
+    y: Math.ceil(Math.random() * height - radius),
   }
 }
 
@@ -27,7 +27,7 @@ export function circleFactory(options) {
   const height = options.height || 100;
   const radius = options.radius || 50;
 
-  const { x, y } = generateCoordinates(width, height);
+  const { x, y } = generateCoordinates(width, height, radius);
 
   const circleConfig = {
     x, y,
