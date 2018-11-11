@@ -3,9 +3,14 @@ import { PRIMARY_COLOR, BORDER_COLOR } from '../constants';
 
 // TODO: provide generator which will disable generation of coordinates on the border
 function generateCoordinates(width, height, radius) {
+  const maxWidth = width - radius;
+  const maxHeight = height - radius;
+
+  let x = Math.ceil(Math.random() * width);
+  let y = Math.ceil(Math.random() * height);
   return {
-    x: Math.ceil(Math.random() * width - 2 * radius),
-    y: Math.ceil(Math.random() * height - 2 * radius),
+    x: x > maxWidth ? maxWidth : x < radius ? 2 * radius : x;
+    y: y > maxHeight ? maxHeight : y < radius ? 2 * radius : y;
   }
 }
 
