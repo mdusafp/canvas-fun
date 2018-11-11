@@ -4,8 +4,8 @@ import { PRIMARY_COLOR, BORDER_COLOR } from '../constants';
 // TODO: provide generator which will disable generation of coordinates on the border
 function generateCoordinates(width, height, radius) {
   return {
-    x: Math.ceil(Math.random() * width - radius),
-    y: Math.ceil(Math.random() * height - radius),
+    x: Math.ceil(Math.random() * width - 2 * radius),
+    y: Math.ceil(Math.random() * height - 2 * radius),
   }
 }
 
