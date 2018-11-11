@@ -9,8 +9,8 @@ function generateCoordinates(width, height, radius) {
   let x = Math.ceil(Math.random() * width);
   let y = Math.ceil(Math.random() * height);
   return {
-    x: x > maxWidth ? maxWidth : x < radius ? 2 * radius : x;
-    y: y > maxHeight ? maxHeight : y < radius ? 2 * radius : y;
+    x: x > maxWidth ? maxWidth : x < radius ? 2 * radius : x,
+    y: y > maxHeight ? maxHeight : y < radius ? 2 * radius : y,
   }
 }
 
