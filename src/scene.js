@@ -1,13 +1,16 @@
 import { Stage, Layer, Text } from 'konva';
-import { Entity } from './entity';
+import { CircleEntity, RectEntity } from './entity';
 import {
   CIRCLE_RADIUS,
   PRIMARY_COLOR,
   DANGER_COLOR,
   INFO_OFFSET_X,
   INFO_OFFSET_Y,
+  RECT_WIDTH,
+  RECT_HEIGHT,
+  SECONDARY_COLOR,
 } from './constants';
-import { countDistance } from './helpers';
+import { countDistance, generateCoordinates } from './helpers';
 
 export class Scene {
   constructor(width, height, container) {
@@ -21,7 +24,39 @@ export class Scene {
     });
 
     this.entities = [];
-    for (let i = 0; i < 10; i++) this.entities.push(new Entity(width, height, CIRCLE_RADIUS));
+
+    for (let i = 0; i < 5; i++) {
+      // TODO: provide except this coordinates
+      const except = [];
+      const area = Math.PI * Math.pow(CIRCLE_RADIUS, 2);
+      const coords = generateCoordinates(this.width, this.height, except);
+
+      const circleEntity = new CircleEntity({
+        area,
+        coords,
+        radius: CIRCLE_RADIUS,
+        baseColor: PRIMARY_COLOR,
+        dragBoundFunc: this.dragBoundFunc.bind(this)
+      });
+      this.entities.push(circleEntity);
+    }
+
+    for (let i = 0; i < 5; i++) {
+      // TODO: provide except this coordinates
+      const except = [];
+      const area = RECT_WIDTH * RECT_HEIGHT;
+      const coords = generateCoordinates(this.width, this.height, except);
+
+      const rectEntity = new RectEntity({
+        area,
+        coords,
+        width: RECT_WIDTH,
+        height: RECT_HEIGHT,
+        baseColor: SECONDARY_COLOR,
+        dragBoundFunc: this.dragBoundFunc.bind(this),
+      });
+      this.entities.push(rectEntity);
+    }
 
     this.layer = new Layer();
 
@@ -30,7 +65,7 @@ export class Scene {
     this.infoText.offsetY(this.infoText.getTextHeight());
     this.layer.add(this.infoText);
 
-    this.entities.forEach(entity => this.layer.add(entity.getCircle()));
+    this.entities.forEach(entity => this.layer.add(entity.getEntity()));
     this.stage.add(this.layer);
   }
 
@@ -50,10 +85,10 @@ export class Scene {
 
       for (const _entity of this.entities) {
         if (entity !== _entity) {
-          const aX = entity.getCircle().getX();
-          const aY = entity.getCircle().getY();
-          const bX = _entity.getCircle().getX();
-          const bY = _entity.getCircle().getY();
+          const aX = entity.getEntity().getX();
+          const aY = entity.getEntity().getY();
+          const bX = _entity.getEntity().getX();
+          const bY = _entity.getEntity().getY();
 
           distance += countDistance(aX, aY, bX, bY);
         }
@@ -70,7 +105,17 @@ export class Scene {
 
   updateEntityColors() {
     this.entities.forEach(entity => entity.setFill(
-      entity.getCurrentHealth() > 0 ? PRIMARY_COLOR : DANGER_COLOR,
+      entity.getCurrentHealth() > 0 ? entity.getBaseColor() : DANGER_COLOR,
     ));
+  }
+
+  dragBoundFunc(position) {
+    // TODO: add logic that doesn't allow entity go to under another entity
+    // entities contains inside this because of bind context
+    console.log(this);
+    return {
+      x: position.x,
+      y: position.y,
+    }
   }
 }

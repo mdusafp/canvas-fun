@@ -38,8 +38,12 @@ import { CONTAINER, GUEST_EMAIL, GUEST_PASS } from './constants';
   }
   
   function main() {
-    const container = document.getElementById(CONTAINER);
-    renderLogin(container);
+    // const container = document.getElementById(CONTAINER);
+    // renderLogin(container);
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    setup(width, height);
   }
   
   main();
