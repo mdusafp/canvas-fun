@@ -1,6 +1,9 @@
 export const CONTAINER = 'container';
 export const CIRCLE_RADIUS = 50;
-export const PRIMARY_COLOR = '#0984e3';
+export const RECT_WIDTH = 100;
+export const RECT_HEIGHT = 50;
+export const PRIMARY_COLOR = '#fbc531';
+export const SECONDARY_COLOR = '#273c75';
 export const DANGER_COLOR = '#d63031';
 export const BORDER_COLOR = '#dfe6e9';
 export const INFO_OFFSET_X = 15;
