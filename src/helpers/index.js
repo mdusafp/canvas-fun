@@ -15,6 +15,19 @@ export function generateCoordinates(width, height, radius) {
   }
 }
 
+export function generateCoordinatesCirlce(width, height, radius, rects) {
+  const maxWidth = width - radius;
+  const maxHeight = height - radius;
+
+  let x = Math.ceil(Math.random() * width);
+  let y = Math.ceil(Math.random() * height);
+
+  return {
+    x: x > maxWidth ? maxWidth : x < radius ? 2 * radius : x,
+    y: y > maxHeight ? maxHeight : y < radius ? 2 * radius : y,
+  }
+}
+
 export function countDistance(aX, aY, bX, bY) {
   return Math.sqrt(
     Math.pow(aX - bX, 2) + Math.pow(aY - bY, 2)

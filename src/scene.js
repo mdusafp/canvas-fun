@@ -24,22 +24,7 @@ export class Scene {
     });
 
     this.entities = [];
-
-    for (let i = 0; i < 5; i++) {
-      // TODO: provide except this coordinates
-      const except = [];
-      const area = Math.PI * Math.pow(CIRCLE_RADIUS, 2);
-      const coords = generateCoordinates(this.width, this.height, except);
-
-      const circleEntity = new CircleEntity({
-        area,
-        coords,
-        radius: CIRCLE_RADIUS,
-        baseColor: PRIMARY_COLOR,
-        dragBoundFunc: this.dragBoundFunc.bind(this)
-      });
-      this.entities.push(circleEntity);
-    }
+    this.rects = []
 
     for (let i = 0; i < 5; i++) {
       // TODO: provide except this coordinates
@@ -56,6 +41,23 @@ export class Scene {
         dragBoundFunc: this.dragBoundFunc.bind(this),
       });
       this.entities.push(rectEntity);
+      this.rects.push(rectEntity)
+    }
+
+    for (let i = 0; i < 5; i++) {
+      // TODO: provide except this coordinates
+      const except = [];
+      const area = Math.PI * Math.pow(CIRCLE_RADIUS, 2);
+      const coords = generateCoordinatesCircle(this.width, this.height, CIRCLE_RADIUS, rects);
+
+      const circleEntity = new CircleEntity({
+        area,
+        coords,
+        radius: CIRCLE_RADIUS,
+        baseColor: PRIMARY_COLOR,
+        dragBoundFunc: this.dragBoundFunc.bind(this)
+      });
+      this.entities.push(circleEntity);
     }
 
     this.layer = new Layer();
