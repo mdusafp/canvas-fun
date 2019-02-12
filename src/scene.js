@@ -80,6 +80,7 @@ export class Scene {
       v - vibration
       pi - math constant
       d - distance
+      Version 2
     `);
 
     for (const entity of this.entities) {

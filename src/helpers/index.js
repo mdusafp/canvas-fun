@@ -6,8 +6,8 @@ export function generateCoordinates(width, height) {
   const maxWidth = width - RECT_WIDTH;
   const maxHeight = height - RECT_HEIGHT;
 
-  let x = Math.ceil(Math.random() * width);
-  let y = Math.ceil(Math.random() * height);
+  let x = Math.ceil(Math.random() * maxWidth);
+  let y = Math.ceil(Math.random() * maxHeight);
 
   return {
     x: x > maxWidth ? maxWidth : x < RECT_WIDTH ? 2 * RECT_WIDTH : x,
@@ -19,8 +19,8 @@ export function generateCoordinatesCircle(width, height, rects) {
   const maxWidth = width - CIRCLE_RADIUS;
   const maxHeight = height - CIRCLE_RADIUS;
 
-  let x = Math.ceil(Math.random() * width);
-  let y = Math.ceil(Math.random() * height);
+  let x = Math.ceil(Math.random() * maxWidth);
+  let y = Math.ceil(Math.random() * maxHeight);
 
   return {
     x: x > maxWidth ? maxWidth : x < CIRCLE_RADIUS ? 2 * CIRCLE_RADIUS : x,
@@ -76,12 +76,12 @@ export function rectFactory(options) {
 
   const rectConfig = {
     x, y,
-    width: options.width || 50,
-    height: options.height || 100,
+    width: options.width || RECT_WIDTH,
+    height: options.height || RECT_HEIGHT,
     fill: options.baseColor,
     stroke: BORDER_COLOR,
     strokeWidth: 1,
-    draggable: true,
+    draggable: false,
     dragBoundFunc: options.dragBoundFunc,
   };
 
