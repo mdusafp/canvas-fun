@@ -1,30 +1,30 @@
 import { Circle, Rect } from 'konva';
-import { BORDER_COLOR } from '../constants';
+import { BORDER_COLOR, CIRCLE_RADIUS, RECT_HEIGHT, RECT_WIDTH } from '../constants';
 
 // TODO: provide generator which will disable generation of coordinates on the border
-export function generateCoordinates(width, height, radius) {
-  const maxWidth = width - radius;
-  const maxHeight = height - radius;
+export function generateCoordinates(width, height) {
+  const maxWidth = width - RECT_WIDTH;
+  const maxHeight = height - RECT_HEIGHT;
 
   let x = Math.ceil(Math.random() * width);
   let y = Math.ceil(Math.random() * height);
 
   return {
-    x: x > maxWidth ? maxWidth : x < radius ? 2 * radius : x,
-    y: y > maxHeight ? maxHeight : y < radius ? 2 * radius : y,
+    x: x > maxWidth ? maxWidth : x < RECT_WIDTH ? 2 * RECT_WIDTH : x,
+    y: y > maxHeight ? maxHeight : y < RECT_HEIGHT ? 2 * RECT_HEIGHT : y,
   }
 }
 
-export function generateCoordinatesCirlce(width, height, radius, rects) {
-  const maxWidth = width - radius;
-  const maxHeight = height - radius;
+export function generateCoordinatesCircle(width, height, rects) {
+  const maxWidth = width - CIRCLE_RADIUS;
+  const maxHeight = height - CIRCLE_RADIUS;
 
   let x = Math.ceil(Math.random() * width);
   let y = Math.ceil(Math.random() * height);
 
   return {
-    x: x > maxWidth ? maxWidth : x < radius ? 2 * radius : x,
-    y: y > maxHeight ? maxHeight : y < radius ? 2 * radius : y,
+    x: x > maxWidth ? maxWidth : x < CIRCLE_RADIUS ? 2 * CIRCLE_RADIUS : x,
+    y: y > maxHeight ? maxHeight : y < CIRCLE_RADIUS ? 2 * CIRCLE_RADIUS : y,
   }
 }
 

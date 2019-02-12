@@ -10,7 +10,7 @@ import {
   RECT_HEIGHT,
   SECONDARY_COLOR,
 } from './constants';
-import { countDistance, generateCoordinates } from './helpers';
+import { countDistance, generateCoordinates, generateCoordinatesCirlce } from './helpers';
 
 export class Scene {
   constructor(width, height, container) {
@@ -30,7 +30,7 @@ export class Scene {
       // TODO: provide except this coordinates
       const except = [];
       const area = RECT_WIDTH * RECT_HEIGHT;
-      const coords = generateCoordinates(this.width, this.height, except);
+      const coords = generateCoordinates(this.width, this.height);
 
       const rectEntity = new RectEntity({
         area,
@@ -38,7 +38,7 @@ export class Scene {
         width: RECT_WIDTH,
         height: RECT_HEIGHT,
         baseColor: SECONDARY_COLOR,
-        dragBoundFunc: this.dragBoundFunc.bind(this),
+        dragBoundFunc: this.dragBoundFuncRect.bind(this),
       });
       this.entities.push(rectEntity);
       this.rects.push(rectEntity)
@@ -48,7 +48,7 @@ export class Scene {
       // TODO: provide except this coordinates
       const except = [];
       const area = Math.PI * Math.pow(CIRCLE_RADIUS, 2);
-      const coords = generateCoordinatesCircle(this.width, this.height, CIRCLE_RADIUS, rects);
+      const coords = generateCoordinatesCircle(this.width, this.height, rects);
 
       const circleEntity = new CircleEntity({
         area,
@@ -118,6 +118,16 @@ export class Scene {
     return {
       x: position.x,
       y: position.y,
+    }
+  }
+
+  dragBoundFuncRect(position) {
+    // TODO: add logic that doesn't allow entity go to under another entity
+    // entities contains inside this because of bind context
+    console.log(this);
+    return {
+      x: x,
+      y: y,
     }
   }
 }
