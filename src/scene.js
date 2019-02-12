@@ -10,7 +10,7 @@ import {
   RECT_HEIGHT,
   SECONDARY_COLOR,
 } from './constants';
-import { countDistance, generateCoordinates, generateCoordinatesCirlce } from './helpers';
+import { countDistance, generateCoordinates, generateCoordinatesCircle } from './helpers';
 
 export class Scene {
   constructor(width, height, container) {
@@ -80,7 +80,6 @@ export class Scene {
       v - vibration
       pi - math constant
       d - distance
-      Version 2
     `);
 
     for (const entity of this.entities) {
