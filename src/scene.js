@@ -10,12 +10,15 @@ import {
   RECT_HEIGHT,
   SECONDARY_COLOR,
 } from './constants';
-import { countDistance, generateCoordinates, generateCoordinatesCircle } from './helpers';
+import { countDistance, generateCoordinates, generateCoordinatesCircle, generateGrid } from './helpers';
 
 export class Scene {
   constructor(width, height, container) {
     this.width = width;
     this.height = height;
+    const grid = generateGrid(width, height, 50);
+    // TODO: do some stuff with grid -> use it for figure positioning
+    console.log(grid);
 
     this.stage = new Stage({
       width,
@@ -36,7 +39,6 @@ export class Scene {
         width: RECT_WIDTH,
         height: RECT_HEIGHT,
         baseColor: SECONDARY_COLOR,
-        dragBoundFunc: this.dragBoundFuncRect.bind(this),
       });
       this.entities.push(rectEntity);
       this.except.push(rectEntity)
@@ -116,16 +118,6 @@ export class Scene {
     return {
       x: position.x,
       y: position.y,
-    }
-  }
-
-  dragBoundFuncRect(position) {
-    // TODO: add logic that doesn't allow entity go to under another entity
-    // entities contains inside this because of bind context
-    console.log(this);
-    return {
-      x: x,
-      y: y,
     }
   }
 }

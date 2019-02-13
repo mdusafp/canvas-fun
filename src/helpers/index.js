@@ -87,3 +87,15 @@ export function rectFactory(options) {
 
   return new Rect(rectConfig);
 }
+
+export function generateGrid(width, height, chunkSize) {
+  const points = [];
+  const chunkWidth = width / chunkSize;
+  const chunkHeight = height / chunkSize;
+  for (let x = chunkWidth; x < width - chunkWidth; x += chunkWidth) {
+    for (let y = chunkHeight; y < height - chunkHeight; y += chunkHeight) {
+      points.push({ x, y });
+    }
+  }
+  return new Map(points.map(point => [point, false]));
+}
