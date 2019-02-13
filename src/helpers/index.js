@@ -1,30 +1,51 @@
 import { Circle, Rect } from 'konva';
-import { BORDER_COLOR, CIRCLE_RADIUS, RECT_HEIGHT, RECT_WIDTH } from '../constants';
+import { BORDER_COLOR, CHUNK_SIZE } from '../constants';
 
 // TODO: provide generator which will disable generation of coordinates on the border
-export function generateCoordinates(width, height, index, except) {
-  const maxWidth = width - RECT_WIDTH;
-  const maxHeight = height - RECT_HEIGHT;
+export function generateCoordinates(width, height, grid) {
+  const figureParams = getFigureParaments(width, height);
+  const maxWidth = width - figureParams.RECT_WIDTH;
+  const maxHeight = height - figureParams.RECT_HEIGHT;
+  let isSuccesfullyPos = false
+  for (let x = width / CHUNK_SIZE; x < width - figureParams.RECT_WIDTH && !isSuccesfullyPos; x = width + CHUNK_SIZE) {
+    for (let y = height / CHUNK_SIZE; y < height - figureParams.RECT_HEIGHT && !isSuccesfullyPos; y = height + CHUNK_SIZE) {
+      if (!grid.get({ x, y })) {
+        let copyGrid = grid;
+        isSuccesfullyPos = true;
+        for (let xs = x; xs < x + figureParams.RECT_WIDTH && isSuccesfullyPos; xs = width + CHUNK_SIZE) {
+          for (let ys = y; ys < y + figureParams.RECT_HEIGHT && isSuccesfullyPos; ys = height + CHUNK_SIZE) {
+            if (!copyGrid.get({ xs, ys }))
+              copyGrid.set({ xs, ys }, true);
+            else
+              isSuccesfullyPos = false;
+          }
+        }
 
-  let x = index * RECT_WIDTH
-  let y = index * RECT_HEIGHT
+        if(isSuccesfullyPos) {
+          grid = copyGrid;
+          return {x: x, y: y,};
+        }
+      }
+    }
+  }
 
   return {
-    x: x > maxWidth ? maxWidth : x < RECT_WIDTH ? 2 * RECT_WIDTH : x,
-    y: y > maxHeight ? maxHeight : y < RECT_HEIGHT ? 2 * RECT_HEIGHT : y,
+    x: 0,
+    y: 0,
   }
 }
 
-export function generateCoordinatesCircle(width, height, except) {
-  const maxWidth = width - CIRCLE_RADIUS;
-  const maxHeight = height - CIRCLE_RADIUS;
+export function generateCoordinatesCircle(width, height) {
+  const figureParams = getFigureParaments(width, height);
+  const maxWidth = width - figureParams.CIRCLE_RADIUS;
+  const maxHeight = height - figureParams.CIRCLE_RADIUS;
 
   let x = Math.ceil(Math.random() * maxWidth);
   let y = Math.ceil(Math.random() * maxHeight);
 
   return {
-    x: x > maxWidth ? maxWidth : x < CIRCLE_RADIUS ? 2 * CIRCLE_RADIUS : x,
-    y: y > maxHeight ? maxHeight : y < CIRCLE_RADIUS ? 2 * CIRCLE_RADIUS : y,
+    x: x > maxWidth ? maxWidth : x < figureParams.CIRCLE_RADIUS ? 2 * figureParams.CIRCLE_RADIUS : x,
+    y: y > maxHeight ? maxHeight : y < figureParams.CIRCLE_RADIUS ? 2 * figureParams.CIRCLE_RADIUS : y,
   }
 }
 
@@ -32,6 +53,14 @@ export function countDistance(aX, aY, bX, bY) {
   return Math.sqrt(
     Math.pow(aX - bX, 2) + Math.pow(aY - bY, 2)
   );
+}
+
+export function getFigureParaments(width, height) {
+  const CIRCLE_RADIUS = width / 25;
+  const RECT_WIDTH = width / 5;
+  const RECT_HEIGHT = height / 10;
+
+  return { CIRCLE_RADIUS, RECT_HEIGHT, RECT_WIDTH }
 }
 
 /**
@@ -76,8 +105,8 @@ export function rectFactory(options) {
 
   const rectConfig = {
     x, y,
-    width: options.width || RECT_WIDTH,
-    height: options.height || RECT_HEIGHT,
+    width: options.width,
+    height: options.height,
     fill: options.baseColor,
     stroke: BORDER_COLOR,
     strokeWidth: 1,

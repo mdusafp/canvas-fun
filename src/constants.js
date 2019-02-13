@@ -1,12 +1,10 @@
 export const CONTAINER = 'container';
-export const CIRCLE_RADIUS = 50;
-export const RECT_WIDTH = 400;
-export const RECT_HEIGHT = 200;
 export const PRIMARY_COLOR = '#fbc531';
 export const SECONDARY_COLOR = '#273c75';
 export const DANGER_COLOR = '#d63031';
 export const BORDER_COLOR = '#dfe6e9';
 export const INFO_OFFSET_X = 15;
 export const INFO_OFFSET_Y = 15;
+export const CHUNK_SIZE = 50
 export const GUEST_EMAIL = 'apu@eltech.com';
 export const GUEST_PASS = 'root';

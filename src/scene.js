@@ -1,22 +1,26 @@
 import { Stage, Layer, Text } from 'konva';
 import { CircleEntity, RectEntity } from './entity';
 import {
-  CIRCLE_RADIUS,
   PRIMARY_COLOR,
   DANGER_COLOR,
   INFO_OFFSET_X,
   INFO_OFFSET_Y,
-  RECT_WIDTH,
-  RECT_HEIGHT,
   SECONDARY_COLOR,
+  CHUNK_SIZE
 } from './constants';
-import { countDistance, generateCoordinates, generateCoordinatesCircle, generateGrid } from './helpers';
+import { countDistance,
+  getFigureParaments,
+   generateCoordinates, 
+  generateCoordinatesCircle,
+   generateGrid } from './helpers';
 
 export class Scene {
   constructor(width, height, container) {
     this.width = width;
     this.height = height;
-    const grid = generateGrid(width, height, 50);
+    this.grid = generateGrid(width, height, CHUNK_SIZE);
+    this.figureParams = getFigureParaments(width, height);
+
     // TODO: do some stuff with grid -> use it for figure positioning
     console.log(grid);
 
@@ -29,29 +33,30 @@ export class Scene {
     this.entities = [];
     this.except = [];
 
-    for (let i = 0; i < 5; i++) { 
-      const area = RECT_WIDTH * RECT_HEIGHT;
-      const coords = generateCoordinates(this.width, this.height, this.i);
+    for (let i = 0; i < 3; i++) { 
+      const area = figureParams.RECT_WIDTH * figureParams.RECT_HEIGHT;
+      const coords = generateCoordinates(this.width, this.height, this.grid);
 
       const rectEntity = new RectEntity({
         area,
         coords,
-        width: RECT_WIDTH,
-        height: RECT_HEIGHT,
+        width: figureParams.RECT_WIDTH,
+        height: figureParams.RECT_HEIGHT,
         baseColor: SECONDARY_COLOR,
+        dragBoundFunc: this.dragBoundFunc.bind(this)
       });
       this.entities.push(rectEntity);
       this.except.push(rectEntity)
     }
 
     for (let i = 0; i < 5; i++) {
-      const area = Math.PI * Math.pow(CIRCLE_RADIUS, 2);
-      const coords = generateCoordinatesCircle(this.width, this.height, this.except);
+      const area = Math.PI * Math.pow(figureParams.CIRCLE_RADIUS, 2);
+      const coords = generateCoordinatesCircle(this.width, this.height);
 
       const circleEntity = new CircleEntity({
         area,
         coords,
-        radius: CIRCLE_RADIUS,
+        radius: figureParams.CIRCLE_RADIUS,
         baseColor: PRIMARY_COLOR,
         dragBoundFunc: this.dragBoundFunc.bind(this)
       });
