@@ -2,12 +2,12 @@ import { Circle, Rect } from 'konva';
 import { BORDER_COLOR, CIRCLE_RADIUS, RECT_HEIGHT, RECT_WIDTH } from '../constants';
 
 // TODO: provide generator which will disable generation of coordinates on the border
-export function generateCoordinates(width, height) {
+export function generateCoordinates(width, height, index, except) {
   const maxWidth = width - RECT_WIDTH;
   const maxHeight = height - RECT_HEIGHT;
 
-  let x = Math.ceil(Math.random() * maxWidth);
-  let y = Math.ceil(Math.random() * maxHeight);
+  let x = index * RECT_WIDTH
+  let y = index * RECT_HEIGHT
 
   return {
     x: x > maxWidth ? maxWidth : x < RECT_WIDTH ? 2 * RECT_WIDTH : x,
@@ -15,7 +15,7 @@ export function generateCoordinates(width, height) {
   }
 }
 
-export function generateCoordinatesCircle(width, height, rects) {
+export function generateCoordinatesCircle(width, height, except) {
   const maxWidth = width - CIRCLE_RADIUS;
   const maxHeight = height - CIRCLE_RADIUS;
 

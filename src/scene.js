@@ -24,13 +24,11 @@ export class Scene {
     });
 
     this.entities = [];
-    this.rects = []
+    this.except = [];
 
-    for (let i = 0; i < 5; i++) {
-      // TODO: provide except this coordinates
-      const except = [];
+    for (let i = 0; i < 5; i++) { 
       const area = RECT_WIDTH * RECT_HEIGHT;
-      const coords = generateCoordinates(this.width, this.height);
+      const coords = generateCoordinates(this.width, this.height, this.i);
 
       const rectEntity = new RectEntity({
         area,
@@ -41,14 +39,12 @@ export class Scene {
         dragBoundFunc: this.dragBoundFuncRect.bind(this),
       });
       this.entities.push(rectEntity);
-      this.rects.push(rectEntity)
+      this.except.push(rectEntity)
     }
 
     for (let i = 0; i < 5; i++) {
-      // TODO: provide except this coordinates
-      const except = [];
       const area = Math.PI * Math.pow(CIRCLE_RADIUS, 2);
-      const coords = generateCoordinatesCircle(this.width, this.height, rects);
+      const coords = generateCoordinatesCircle(this.width, this.height, this.except);
 
       const circleEntity = new CircleEntity({
         area,
@@ -58,6 +54,7 @@ export class Scene {
         dragBoundFunc: this.dragBoundFunc.bind(this)
       });
       this.entities.push(circleEntity);
+      this.except.push(circleEntity)
     }
 
     this.layer = new Layer();
@@ -80,6 +77,7 @@ export class Scene {
       v - vibration
       pi - math constant
       d - distance
+      Version 2
     `);
 
     for (const entity of this.entities) {
