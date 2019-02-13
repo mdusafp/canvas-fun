@@ -9,13 +9,13 @@ export function generateCoordinates(width, height, grid) {
   let isSuccesfullyPos = false
   for (let x = width / CHUNK_SIZE; x < width - figureParams.RECT_WIDTH && !isSuccesfullyPos; x = width + CHUNK_SIZE) {
     for (let y = height / CHUNK_SIZE; y < height - figureParams.RECT_HEIGHT && !isSuccesfullyPos; y = height + CHUNK_SIZE) {
-      if (!grid.get({ x, y })) {
+      if (!grid.get({ x: x, y: y })) {
         let copyGrid = grid;
         isSuccesfullyPos = true;
         for (let xs = x; xs < x + figureParams.RECT_WIDTH && isSuccesfullyPos; xs = width + CHUNK_SIZE) {
           for (let ys = y; ys < y + figureParams.RECT_HEIGHT && isSuccesfullyPos; ys = height + CHUNK_SIZE) {
-            if (!copyGrid.get({ xs, ys }))
-              copyGrid.set({ xs, ys }, true);
+            if (!copyGrid.get({ x: xs, y: ys }))
+              copyGrid.set({ x: xs, y: ys }, true);
             else
               isSuccesfullyPos = false;
           }

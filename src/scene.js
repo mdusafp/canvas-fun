@@ -18,8 +18,8 @@ export class Scene {
   constructor(width, height, container) {
     this.width = width;
     this.height = height;
-    this.grid = generateGrid(width, height, CHUNK_SIZE);
-    this.figureParams = getFigureParaments(width, height);
+    const grid = generateGrid(width, height, CHUNK_SIZE);
+    const figureParams = getFigureParaments(width, height);
 
     // TODO: do some stuff with grid -> use it for figure positioning
     console.log(grid);
@@ -31,7 +31,6 @@ export class Scene {
     });
 
     this.entities = [];
-    this.except = [];
 
     for (let i = 0; i < 3; i++) { 
       const area = figureParams.RECT_WIDTH * figureParams.RECT_HEIGHT;
@@ -46,7 +45,6 @@ export class Scene {
         dragBoundFunc: this.dragBoundFunc.bind(this)
       });
       this.entities.push(rectEntity);
-      this.except.push(rectEntity)
     }
 
     for (let i = 0; i < 5; i++) {
@@ -61,7 +59,6 @@ export class Scene {
         dragBoundFunc: this.dragBoundFunc.bind(this)
       });
       this.entities.push(circleEntity);
-      this.except.push(circleEntity)
     }
 
     this.layer = new Layer();
