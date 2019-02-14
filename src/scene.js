@@ -5,8 +5,7 @@ import {
   DANGER_COLOR,
   INFO_OFFSET_X,
   INFO_OFFSET_Y,
-  SECONDARY_COLOR,
-  CHUNK_SIZE
+  SECONDARY_COLOR
 } from './constants';
 import { countDistance,
   getFigureParaments,
@@ -18,7 +17,7 @@ export class Scene {
   constructor(width, height, container) {
     this.width = width;
     this.height = height;
-    const grid = generateGrid(width, height, CHUNK_SIZE);
+    let grid = generateGrid(width, height);
     const figureParams = getFigureParaments(width, height);
 
     // TODO: do some stuff with grid -> use it for figure positioning
@@ -34,7 +33,12 @@ export class Scene {
 
     for (let i = 0; i < 3; i++) { 
       const area = figureParams.RECT_WIDTH * figureParams.RECT_HEIGHT;
-      const coords = generateCoordinates(this.width, this.height, this.grid);
+      const coordsData = generateCoordinates(this.width, this.height, grid);
+      grid = coordsData.grid;
+      const coords = {
+        x: coordsData.x,
+        y: coordsData.y
+      };
 
       const rectEntity = new RectEntity({
         area,
