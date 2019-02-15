@@ -9,13 +9,13 @@ export function generateCoordinates(width, height, grid) {
   const chunkHeight = height / CHUNK_SIZE;
   for (let x = chunkWidth; (x < width - chunkWidth) && !isSuccesfullyPos; x += chunkWidth) {
     for (let y = chunkHeight; (y < height - chunkHeight) && !isSuccesfullyPos; y += chunkHeight) {
-      if (!grid.get({ x: x, y: y })) {
+      if (!grid[new CoorPair(x, y)]) {
         let copyGrid = grid;
         isSuccesfullyPos = true;
-        for (let xs = x; xs < x + figureParams.RECT_WIDTH && isSuccesfullyPos; xs += chunkWidth) {
-          for (let ys = y; ys < y + figureParams.RECT_HEIGHT && isSuccesfullyPos; ys +=chunkHeight) {
-            if (!copyGrid.get({ x: xs, y: ys })) {
-              copyGrid[{ x: xs, y: ys }] = true;
+        for (let xs = x; xs < (x + figureParams.RECT_WIDTH + 1) && isSuccesfullyPos; xs += chunkWidth) {
+          for (let ys = y; ys < (y + figureParams.RECT_HEIGHT + 1) && isSuccesfullyPos; ys += chunkHeight) {
+            if (!copyGrid[new CoorPair(xs, ys)]) {
+              copyGrid[new CoorPair(xs, ys)] = true;
               console.log(copyGrid)
             }
             else
@@ -23,8 +23,8 @@ export function generateCoordinates(width, height, grid) {
           }
         }
 
-        if(isSuccesfullyPos) {
-          return {x: x, y: y, grid: copyGrid};
+        if (isSuccesfullyPos) {
+          return { x: x, y: y, grid: copyGrid };
         }
       }
     }
@@ -57,7 +57,7 @@ export function countDistance(aX, aY, bX, bY) {
 }
 
 export function getFigureParaments(width, height) {
-  const CIRCLE_RADIUS = 3 * width / CHUNK_SIZE;
+  const CIRCLE_RADIUS = width / CHUNK_SIZE;
   const RECT_WIDTH = 3 * width / CHUNK_SIZE;
   const RECT_HEIGHT = 5 * height / CHUNK_SIZE;
 
@@ -118,14 +118,24 @@ export function rectFactory(options) {
   return new Rect(rectConfig);
 }
 
+function CoorPair(x, y) {
+  this.x = x;
+  this.y = y;
+}
+CoorPair.prototype.toString = function () {
+  return 'CoorPair [' + this.x + ',' + this.y + ']';
+};
+
+
 export function generateGrid(width, height) {
   const points = [];
   const chunkWidth = width / CHUNK_SIZE;
   const chunkHeight = height / CHUNK_SIZE;
+  var mapCoor = {};
   for (let x = chunkWidth; x < width - chunkWidth; x += chunkWidth) {
     for (let y = chunkHeight; y < height - chunkHeight; y += chunkHeight) {
-      points.push({ x, y });
+      mapCoor[new CoorPair(x, y)] = false;
     }
   }
-  return new Map(points.map(point => [point, false]));
+  return mapCoor;
 }
